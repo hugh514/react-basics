@@ -20,6 +20,8 @@ const ControleGastos = () => {
       setGastos((prevGasto) => [...prevGasto, newGasto]);
       setNome("");
       setValor("");
+    } else{
+        alert("Preencha todos os campos!")
     }
   };
   useEffect(() => {
@@ -50,7 +52,7 @@ const ControleGastos = () => {
           value={inputValor}
           onChange={(e) => setValor(e.target.value)}
         />
-        <button type="submit" className="button-submit">
+        <button type="submit" className="button submit">
           Cadastrar
         </button>
       </form>
@@ -62,14 +64,16 @@ const ControleGastos = () => {
           <li className="item-gastos" key={gasto.id}>
             <span>
               Nome
-              <br />
               <small>{gasto.nome}</small>
             </span>
             <span>
               Valor
-              <br />
               <small>R${gasto.valor},00</small>{" "}
-            </span>
+            </span>    
+            <span className="crud-buttons">
+                <button className="button edit">Editar</button>
+                <button className="button delete">Excluir</button>
+                </span>     
           </li>
         ))}
       </ul>

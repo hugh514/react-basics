@@ -1,7 +1,9 @@
+import ControleGastos from "./components/ControleGastos"
+
 function App() {
   return (
     <>
-    
+    <ControleGastos/>
     </>
   )
 }

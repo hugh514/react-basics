@@ -2,16 +2,28 @@ import { useState, useEffect } from "react";
 import "./ControleGastos.css";
 
 const ControleGastos = () => {
+  const [cadastroButn, setCadastroBtn] = useState("Cadastrar");
   const localGastos = JSON.parse(localStorage.getItem("listGastos")) || [];
   const [listGastos, setGastos] = useState(localGastos);
   const [inputNome, setNome] = useState("");
   const [inputValor, setValor] = useState();
   const [totalDespesas, setTotal] = useState(0);
+  const [itemEditando, setItem] = useState(null);
 
   const cadastrarGasto = (e) => {
     e.preventDefault();
-
-    if (inputNome.trim() !== "" && inputValor.trim() !== "") {
+    if (itemEditando) {
+      const editarGasto = listGastos.map((gasto) =>
+        gasto.id === itemEditando.id
+          ? { ...gasto, nome: inputNome, valor: inputValor }
+          : gasto
+      );
+      setGastos(editarGasto);
+      setItem(null);
+      setCadastroBtn("Cadastrar");
+      setNome("");
+      setValor("");
+    } else if (inputNome.trim() !== "" && inputValor.trim() !== "") {
       const newGasto = {
         id: Date.now(),
         nome: inputNome,
@@ -33,8 +45,13 @@ const ControleGastos = () => {
     setTotal(soma);
   }, [listGastos]);
 
-  
-
+  const editarGasto = (id) => {
+    const gastoEncontrado = listGastos.find((gasto) => gasto.id === id);
+    setNome(gastoEncontrado.nome);
+    setValor(gastoEncontrado.valor);
+    setItem(gastoEncontrado);
+    setCadastroBtn("Editar");
+  };
   const excluirGasto = (id) => {
     setGastos(listGastos.filter((gasto) => gasto.id !== id));
   };
@@ -58,7 +75,7 @@ const ControleGastos = () => {
           onChange={(e) => setValor(e.target.value)}
         />
         <button type="submit" className="button submit">
-          Cadastrar
+          {cadastroButn}
         </button>
       </form>
 
@@ -76,7 +93,12 @@ const ControleGastos = () => {
               <small>R${gasto.valor},00</small>{" "}
             </span>
             <span className="crud-buttons">
-              <button className="button edit">Editar</button>
+              <button
+                className="button edit"
+                onClick={() => editarGasto(gasto.id)}
+              >
+                Editar
+              </button>
               <button
                 className="button delete"
                 onClick={() => excluirGasto(gasto.id)}
@@ -88,7 +110,7 @@ const ControleGastos = () => {
         ))}
       </ul>
       <div className="bloco-total">
-        <span className="total">Total das Despesas: R${totalDespesas},00.</span>
+        <span className="total">Total das Despesas: R${totalDespesas.toFixed(2)}.</span>
       </div>
     </div>
   );

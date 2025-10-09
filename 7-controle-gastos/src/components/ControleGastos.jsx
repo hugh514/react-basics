@@ -20,8 +20,8 @@ const ControleGastos = () => {
       setGastos((prevGasto) => [...prevGasto, newGasto]);
       setNome("");
       setValor("");
-    } else{
-        alert("Preencha todos os campos!")
+    } else {
+      alert("Preencha todos os campos!");
     }
   };
   useEffect(() => {
@@ -31,8 +31,13 @@ const ControleGastos = () => {
       0
     );
     setTotal(soma);
-
   }, [listGastos]);
+
+  
+
+  const excluirGasto = (id) => {
+    setGastos(listGastos.filter((gasto) => gasto.id !== id));
+  };
   return (
     <div className="app-container">
       <h1 className="title">Controle de Gastos</h1>
@@ -69,11 +74,16 @@ const ControleGastos = () => {
             <span>
               Valor
               <small>R${gasto.valor},00</small>{" "}
-            </span>    
+            </span>
             <span className="crud-buttons">
-                <button className="button edit">Editar</button>
-                <button className="button delete">Excluir</button>
-                </span>     
+              <button className="button edit">Editar</button>
+              <button
+                className="button delete"
+                onClick={() => excluirGasto(gasto.id)}
+              >
+                Excluir
+              </button>
+            </span>
           </li>
         ))}
       </ul>

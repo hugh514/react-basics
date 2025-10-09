@@ -110,7 +110,9 @@ const ControleGastos = () => {
         ))}
       </ul>
       <div className="bloco-total">
-        <span className="total">Total das Despesas: R${totalDespesas.toFixed(2)}</span>
+        <span className="total">
+          Total das Despesas: R${totalDespesas.toFixed(2)}
+        </span>
       </div>
     </div>
   );

@@ -6,7 +6,6 @@ const FetchApi = () => {
   const [erro, setErro] = useState(null);
 
   useEffect(() => {
-    // Quando o componente montar, faz o fetch
     fetch("https://jsonplaceholder.typicode.com/posts")
       .then((res) => {
         if (!res.ok) {
